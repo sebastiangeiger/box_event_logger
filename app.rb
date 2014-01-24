@@ -11,3 +11,10 @@ get '*' do |path|
   end
   "File written"
 end
+
+post '*' do |path|
+  File.open(LOG_FILE, "a") do |file|
+    file.write("#{Time.now}: POST request to #{path}\n")
+  end
+  "File written"
+end

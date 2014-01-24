@@ -35,22 +35,27 @@ describe 'My App' do
   end
 
   describe 'my catch all route' do
-    it 'appends to log file when I call /a' do
+    it 'appends to log file when I call GET /a' do
       old_size = IO.read("log.txt").split("\n").size
       get '/a'
       new_size = IO.read("log.txt").split("\n").size
       expect(new_size).to eql(old_size + 1)
     end
-    it 'appends to log file when I call /b' do
+    it 'appends to log file when I call GET /b' do
       old_size = IO.read("log.txt").split("\n").size
       get '/b'
       new_size = IO.read("log.txt").split("\n").size
       expect(new_size).to eql(old_size + 1)
     end
-    it 'appends to log file when I call /b' do
+    it 'appends the right text to the log file when I call GET /b' do
       get '/b'
       current_line = IO.read("log.txt").split("\n").last
       expect(current_line).to include ('GET request to /b')
+    end
+    it 'appends the right text to the log file when I call POST /c' do
+      post '/c'
+      current_line = IO.read("log.txt").split("\n").last
+      expect(current_line).to include ('POST request to /c')
     end
   end
 end
