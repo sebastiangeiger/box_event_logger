@@ -2,7 +2,10 @@ require 'sinatra'
 LOG_FILE = "log.txt"
 
 get '/log' do
-  IO.read(LOG_FILE)
+  lines = IO.read(LOG_FILE).split("\n").map do |line|
+    "<li>#{line}</li>"
+  end.join("\n")
+  "<h1>Access Log</h1><ol>#{lines}</ol>"
 end
 
 get '*' do |path|

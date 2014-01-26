@@ -14,10 +14,16 @@ describe 'My App' do
 
   describe 'GET /log' do
     it 'serves the log.txt' do
-      log_contents = IO.read("log.txt")
+      log_lines = IO.read("log.txt").split("\n")
       get '/log'
       expect(last_response).to be_ok
-      expect(last_response.body).to eql log_contents
+      body_lines = last_response.body.split("\n")
+      missing_lines = log_lines.select do |log_line|
+        body_lines.select do |body_line|
+          body_line.include? log_line
+        end.empty?
+      end
+      expect(missing_lines).to be_empty
     end
   end
 
